@@ -40,6 +40,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
+  hitParticle: {fileID: 198003564649806198, guid: 0bd7d212e9435104fa2a159bd0ceab7a,
+    type: 3}
+--- !u!114 &3727817751875911478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3274150517216157666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cec0e01574b244b488248ee6d7bafc77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 946361248972948710}
 --- !u!114 &5610767750448019250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,19 +80,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 0
---- !u!114 &3727817751875911478
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3274150517216157666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cec0e01574b244b488248ee6d7bafc77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 946361248972948710}
 --- !u!1001 &742524324941332276
 PrefabInstance:
   m_ObjectHideFlags: 0
