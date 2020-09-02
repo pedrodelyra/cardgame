@@ -11,7 +11,6 @@ namespace Gameplay.Behaviours
     public class AttackBehaviour : MonoBehaviour
     {
         [SerializeField] int damage = 10;
-        [SerializeField] ParticleSystem hitParticle;
 
         const int CooldownInSeconds = 1;
 
@@ -76,8 +75,6 @@ namespace Gameplay.Behaviours
             Debug.Log($"{name} ATTACK: {damage} HEALTH: {CurrentTarget.Health}");
             CurrentTarget.ScheduleDamage(damage);
             _attackers.ForEach(action: attacker => attacker.Attack(CurrentTarget));
-
-            Destroy(Instantiate(hitParticle, transform), 10);
         }
 
         void ChooseTarget()
