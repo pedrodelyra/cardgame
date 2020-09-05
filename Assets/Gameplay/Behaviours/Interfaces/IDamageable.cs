@@ -4,7 +4,9 @@ namespace Gameplay.Behaviours.Interfaces
 {
     public interface IDamageable
     {
-        int Health { get; }
+        int MaxHealth { get; }
+
+        int CurrentHealth { get; }
 
         void ScheduleDamage(int damage);
 

@@ -6,9 +6,11 @@ namespace Gameplay.Behaviours
 {
     public class DamageableBehaviour : MonoBehaviour, IDamageable
     {
-        [SerializeField] int health;
+        [SerializeField] int maxHealth;
 
-        public int Health => health;
+        public int CurrentHealth { get; set; }
+
+        public int MaxHealth => maxHealth;
 
         public event Action OnDie;
 
@@ -19,10 +21,15 @@ namespace Gameplay.Behaviours
             _scheduledDamage += damage;
         }
 
+        void Awake()
+        {
+            CurrentHealth = MaxHealth;
+        }
+
         void LateUpdate()
         {
-            health = Mathf.Max(health - _scheduledDamage, 0);
-            if (health == 0)
+            CurrentHealth = Mathf.Max(CurrentHealth - _scheduledDamage, 0);
+            if (CurrentHealth == 0)
             {
                 Die();
             }

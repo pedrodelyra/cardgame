@@ -72,7 +72,7 @@ namespace Gameplay.Behaviours
         void Attack()
         {
             Assert.IsTrue(HasValidTarget, message: "Attack should only be called with a valid target");
-            Debug.Log($"{name} ATTACK: {damage} HEALTH: {CurrentTarget.Health}");
+            Debug.Log($"{name} ATTACK: {damage} HEALTH: {CurrentTarget.CurrentHealth}");
             CurrentTarget.ScheduleDamage(damage);
             _attackers.ForEach(action: attacker => attacker.Attack(CurrentTarget));
         }

@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿using Gameplay.Behaviours.UI;
+using UnityEngine;
 
 namespace Gameplay.Behaviours
 {
     public class TroopAnimator : MonoBehaviour
     {
         [SerializeField] Animator animator;
+        [SerializeField] HealthBarBehaviour healthBarBehaviour;
 
         static readonly int StateHash = Animator.StringToHash(name: "State");
 
@@ -26,6 +28,11 @@ namespace Gameplay.Behaviours
             foreach(AnimationClip clip in clips)
             {
                 Debug.Log($"{clip.name} {clip.length}");
+            }
+
+            if (healthBarBehaviour)
+            {
+                healthBarBehaviour.Setup(GetComponent<DamageableBehaviour>(), transform);
             }
         }
 
