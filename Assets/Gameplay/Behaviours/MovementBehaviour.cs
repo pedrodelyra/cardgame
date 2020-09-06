@@ -4,8 +4,6 @@ using UnityEngine;
 
 namespace Gameplay.Behaviours
 {
-    [RequireComponent(typeof(Rigidbody))]
-    [RequireComponent(typeof(ColliderBehaviour))]
     [RequireComponent(typeof(TeamBehaviour))]
     public class MovementBehaviour : MonoBehaviour
     {

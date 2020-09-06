@@ -1,32 +1,30 @@
-﻿using System.Collections.Generic;
-using Gameplay.Core.Actions;
+﻿using Gameplay.Core.Actions;
+using Gameplay.Core.Cards;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Gameplay.Core
 {
     public class MatchReferee : MonoBehaviour
     {
-        [SerializeField] Arena arena;
+        GameActionFactory GameActionFactory { get; set; }
 
-        Queue<IGameAction> ActionsQueue { get; } = new Queue<IGameAction>();
+        GameActionsQueue ActionsQueue { get; } = new GameActionsQueue();
+
+        public void Setup(GameActionFactory gameActionFactory)
+        {
+            GameActionFactory = gameActionFactory;
+            ActionsQueue.ScheduleAction(GameActionFactory.CreateDeployCardAction(CardType.Warrior));
+        }
 
         void Start()
         {
-            ScheduleAction(new DeployCardAction(CardType.Mage, arena));
+            Assert.IsNotNull(GameActionFactory);
         }
 
         void Update()
         {
-            while (ActionsQueue.Count > 0)
-            {
-                var action = ActionsQueue.Dequeue();
-                action.Execute();
-            }
-        }
-
-        void ScheduleAction(IGameAction gameAction)
-        {
-            ActionsQueue.Enqueue(gameAction);
+            ActionsQueue.Execute();
         }
     }
 }

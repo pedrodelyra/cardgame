@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5743174387965194280}
+  - component: {fileID: 7891220010900646783}
   m_Layer: 0
   m_Name: Arena
   m_TagString: Untagged
@@ -35,6 +36,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7891220010900646783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8068301719585712115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8adb35d9887fe4d7d84dcaaa543e392c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 5743174387965194280}
+  cardPrefabMap: {fileID: 6652695199102847947, guid: c81aa2f6b1e2c447e86af12e9f43b0f7,
+    type: 3}
 --- !u!1001 &656020596069821566
 PrefabInstance:
   m_ObjectHideFlags: 0

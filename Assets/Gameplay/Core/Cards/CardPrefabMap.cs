@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Vendor.SerializableDictionary;
 
-namespace Gameplay.Core
+namespace Gameplay.Core.Cards
 {
     public class CardPrefabMap : MonoBehaviour
     {

@@ -6,7 +6,6 @@ using UnityEngine.Assertions;
 
 namespace Gameplay.Behaviours
 {
-    [RequireComponent(typeof(ColliderBehaviour))]
     [RequireComponent(typeof(TeamBehaviour))]
     public class AttackBehaviour : MonoBehaviour
     {

@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿
+using Gameplay.Core.Cards;
 
 namespace Gameplay.Core.Actions
 {
-    public class GameActionFactory : MonoBehaviour
+    public class GameActionFactory
     {
         Arena Arena { get; }
 
@@ -11,24 +12,20 @@ namespace Gameplay.Core.Actions
             Arena = arena;
         }
 
-        public DeployGameObjectAction CreateDeployCardAction()
+        public DeployCardAction CreateDeployCardAction(CardType cardType)
         {
-            
+            return CreateGameAction<DeployCardAction, DeployCardActionData>(new DeployCardActionData
+            {
+                Arena = Arena,
+                CardType = cardType,
+            });
         }
 
-        public IGameAction CreateAction<T>() where T : IGameAction, new()
+        T CreateGameAction<T, U>(U data) where T : GameAction<U>, new()
         {
             var gameAction = new T();
-            Setup(gameAction);
+            gameAction.Setup(data);
             return gameAction;
-        }
-
-        void Setup(IGameAction gameAction)
-        {
-            if (gameAction is IHasArena hasArena)
-            {
-                hasArena.Arena = Arena;
-            }
         }
     }
 }

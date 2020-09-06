@@ -28,6 +28,10 @@ namespace Gameplay.Behaviours
 
         void Awake()
         {
+            if (Team == Team.None)
+            {
+                team = Team.Home;
+            }
             _collider = GetComponent<ColliderBehaviour>();
             gameObject.tag = Team.GetTag();
         }
