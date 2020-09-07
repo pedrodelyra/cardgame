@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Gameplay.Core;
 using UnityEngine;
@@ -12,9 +13,24 @@ namespace Gameplay.Behaviours
 
         ColliderBehaviour _collider;
 
-        public Team Team => team;
+        public event Action<Team> OnUpdateTeam;
 
-        public Team GetOppositeTeam() => team.Opposite();
+        public Team Team
+        {
+            get => team;
+            set
+            {
+                if (team == value)
+                {
+                    return;
+                }
+                team = value;
+                gameObject.tag = Team.GetTag();
+                OnUpdateTeam?.Invoke(team);
+            }
+        }
+
+        Team GetOppositeTeam() => team.Opposite();
 
         public IEnumerable<GameObject> GetCollidingEnemies()
         {
@@ -28,12 +44,7 @@ namespace Gameplay.Behaviours
 
         void Awake()
         {
-            if (Team == Team.None)
-            {
-                team = Team.Home;
-            }
             _collider = GetComponent<ColliderBehaviour>();
-            gameObject.tag = Team.GetTag();
         }
     }
 }

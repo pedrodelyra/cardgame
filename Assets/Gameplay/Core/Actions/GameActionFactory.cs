@@ -5,19 +5,21 @@ namespace Gameplay.Core.Actions
 {
     public class GameActionFactory
     {
-        Arena Arena { get; }
+        Deployer Deployer { get; }
 
-        public GameActionFactory(Arena arena)
+        public GameActionFactory(Deployer deployer)
         {
-            Arena = arena;
+            Deployer = deployer;
         }
 
-        public DeployCardAction CreateDeployCardAction(CardType cardType)
+        public DeployCardAction CreateDeployCardAction(CardType cardType, Team team, int laneIdx)
         {
             return CreateGameAction<DeployCardAction, DeployCardActionData>(new DeployCardActionData
             {
-                Arena = Arena,
+                Deployer = Deployer,
                 CardType = cardType,
+                Team = team,
+                LaneIdx = laneIdx,
             });
         }
 

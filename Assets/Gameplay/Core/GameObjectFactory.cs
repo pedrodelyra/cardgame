@@ -1,20 +1,21 @@
-﻿using UnityEngine;
+﻿using Gameplay.Core.Cards;
+using UnityEngine;
 
 namespace Gameplay.Core
 {
     public class GameObjectFactory
     {
-        GameObject BasePrefab { get; }
+        CardPrefabMap CardPrefabMap { get; }
 
-        public GameObjectFactory(GameObject basePrefab)
+        public GameObjectFactory(CardPrefabMap cardPrefabMap)
         {
-            BasePrefab = basePrefab;
+            CardPrefabMap = cardPrefabMap;
         }
 
-        GameObject Create()
+        public GameObject CreateCard(CardType cardType)
         {
-            var instance = Object.Instantiate(BasePrefab);
-            return instance;
+            var prefab = CardPrefabMap.GetPrefab(cardType);
+            return Object.Instantiate(prefab);
         }
     }
 }

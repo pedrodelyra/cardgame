@@ -1,4 +1,5 @@
 ﻿using Gameplay.Behaviours.UI;
+using Gameplay.Core;
 using UnityEngine;
 
 namespace Gameplay.Behaviours
@@ -19,21 +20,25 @@ namespace Gameplay.Behaviours
 
         MovementBehaviour _movement;
         AttackBehaviour _attack;
+        TeamBehaviour _team;
 
         void Awake()
         {
             _movement = GetComponent<MovementBehaviour>();
             _attack = GetComponent<AttackBehaviour>();
-            AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
-            foreach(AnimationClip clip in clips)
-            {
-                Debug.Log($"{clip.name} {clip.length}");
-            }
+            _team = GetComponent<TeamBehaviour>();
 
             if (healthBarBehaviour)
             {
                 healthBarBehaviour.Setup(GetComponent<DamageableBehaviour>(), transform);
             }
+
+            _team.OnUpdateTeam += OnUpdateTeam;
+        }
+
+        void OnDestroy()
+        {
+            _team.OnUpdateTeam -= OnUpdateTeam;
         }
 
         void Update()
@@ -54,6 +59,14 @@ namespace Gameplay.Behaviours
             }
 
             return State.None;
+        }
+
+        void OnUpdateTeam(Team team)
+        {
+            var t = animator.transform;
+            var r = t.localRotation.eulerAngles;
+            r.y = team == Team.Home ? 90f : -90f;
+            t.localRotation = Quaternion.Euler(r);
         }
     }
 }

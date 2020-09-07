@@ -1,7 +1,6 @@
 ﻿using Gameplay.Core.Actions;
 using Gameplay.Core.Cards;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 namespace Gameplay.Core
 {
@@ -14,17 +13,10 @@ namespace Gameplay.Core
         public void Setup(GameActionFactory gameActionFactory)
         {
             GameActionFactory = gameActionFactory;
-            ActionsQueue.ScheduleAction(GameActionFactory.CreateDeployCardAction(CardType.Warrior));
+            ActionsQueue.ScheduleAction(GameActionFactory.CreateDeployCardAction(CardType.Warrior, Team.Home, 0));
+            ActionsQueue.ScheduleAction(GameActionFactory.CreateDeployCardAction(CardType.Warrior, Team.Visitor, 0));
         }
 
-        void Start()
-        {
-            Assert.IsNotNull(GameActionFactory);
-        }
-
-        void Update()
-        {
-            ActionsQueue.Execute();
-        }
+        void Update() => ActionsQueue.Execute();
     }
 }

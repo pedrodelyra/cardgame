@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Gameplay.Core;
 using UnityEngine;
 
 namespace Gameplay.Behaviours
@@ -7,7 +8,7 @@ namespace Gameplay.Behaviours
     [RequireComponent(typeof(TeamBehaviour))]
     public class MovementBehaviour : MonoBehaviour
     {
-        enum Direction
+        public enum Direction
         {
             Left,
             Right,
@@ -16,7 +17,6 @@ namespace Gameplay.Behaviours
         [SerializeField] int speed = 1;
         [SerializeField] Direction direction;
 
-        Rigidbody _rigidBody;
         ColliderBehaviour _collider;
         TeamBehaviour _team;
 
@@ -30,19 +30,22 @@ namespace Gameplay.Behaviours
 
         public bool IsMoving => _velocity.magnitude > 0f;
 
+        public void SetDirection(Direction d) => direction = d;
+
         void Awake()
         {
-            _rigidBody = GetComponent<Rigidbody>();
             _collider = GetComponent<ColliderBehaviour>();
             _team = GetComponent<TeamBehaviour>();
             _collider.OnAddCollider += OnAddCollider;
             _collider.OnRemoveCollider += OnRemoveCollider;
+            _team.OnUpdateTeam += OnUpdateTeam;
         }
 
         void OnDestroy()
         {
             _collider.OnAddCollider -= OnAddCollider;
             _collider.OnRemoveCollider -= OnRemoveCollider;
+            _team.OnUpdateTeam -= OnUpdateTeam;
         }
 
         void Start() => Move();
@@ -81,6 +84,11 @@ namespace Gameplay.Behaviours
             {
                 Move();
             }
+        }
+
+        void OnUpdateTeam(Team team)
+        {
+            direction = team == Team.Home ? Direction.Right : Direction.Left;
         }
     }
 }

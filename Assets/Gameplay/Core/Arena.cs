@@ -1,17 +1,11 @@
-﻿using Gameplay.Core.Cards;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Gameplay.Core
 {
     public class Arena : MonoBehaviour
     {
-        [SerializeField] Transform parent; // TODO: Use lanes
-        [SerializeField] CardPrefabMap cardPrefabMap;
+        [SerializeField] Lane[] lanes; // TODO: Use lanes
 
-        public void DeployCard(CardType cardType)
-        {
-            var prefab = cardPrefabMap.GetPrefab(cardType);
-            var _ = Instantiate(prefab, parent);
-        }
+        public Lane[] Lanes => lanes;
     }
 }

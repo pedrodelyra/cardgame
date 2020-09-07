@@ -11,16 +11,19 @@ namespace Gameplay.Core.Actions
 
         public override void Execute()
         {
-            var arena = Data.Arena;
-            var cardType = Data.CardType;
-            arena.DeployCard(cardType);
+            var deployer = Data.Deployer;
+            deployer.DeployCard(Data.CardType, Data.Team, Data.LaneIdx);
         }
     }
 
     public struct DeployCardActionData
     {
-        public Arena Arena;
+        public Deployer Deployer;
 
         public CardType CardType;
+
+        public Team Team;
+
+        public int LaneIdx;
     }
 }
