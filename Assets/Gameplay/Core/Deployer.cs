@@ -1,6 +1,7 @@
 ﻿using Gameplay.Behaviours;
 using Gameplay.Core.Cards;
 using UnityEngine;
+using Utils.Extensions;
 
 namespace Gameplay.Core
 {
@@ -16,15 +17,15 @@ namespace Gameplay.Core
             Arena = arena;
         }
 
-        public GameObject DeployCard(CardType cardType, Team team, int laneIdx)
+        public Entity DeployCard(CardType cardType, Team team, int laneIdx)
         {
             var card = GameObjectFactory.CreateCard(cardType);
-            var lane = Arena.Lanes[laneIdx];
-            card.transform.SetParent(lane.transform);
-            card.transform.SetAsLastSibling();
-            card.transform.position = lane.GetCorner(team).position;
+            card.Team = team;
 
-            var teamBehaviour = card.GetComponent<TeamBehaviour>();
+            var lane = Arena.Lanes[laneIdx];
+            lane.AddEntity(card, team);
+
+            var teamBehaviour = card.GetOrAddComponent<TeamBehaviour>();
             teamBehaviour.Team = team;
             return card;
         }

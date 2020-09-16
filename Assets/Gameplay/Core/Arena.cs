@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Gameplay.Behaviours;
+using UnityEngine;
 
 namespace Gameplay.Core
 {

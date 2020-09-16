@@ -2,6 +2,7 @@
 using System.Linq;
 using Gameplay.Core;
 using UnityEngine;
+using Utils.Extensions;
 
 namespace Gameplay.Behaviours
 {
@@ -20,7 +21,7 @@ namespace Gameplay.Behaviours
         ColliderBehaviour _collider;
         TeamBehaviour _team;
 
-        Vector2 _velocity = Vector2.zero;
+        Vector3 _velocity = Vector3.zero;
 
         readonly Dictionary<Direction, Vector3> _directionsDict = new Dictionary<Direction, Vector3>
         {
@@ -30,7 +31,7 @@ namespace Gameplay.Behaviours
 
         public bool IsMoving => _velocity.magnitude > 0f;
 
-        public void SetDirection(Direction d) => direction = d;
+        public int Speed => speed;
 
         void Awake()
         {
@@ -89,6 +90,11 @@ namespace Gameplay.Behaviours
         void OnUpdateTeam(Team team)
         {
             direction = team == Team.Home ? Direction.Right : Direction.Left;
+        }
+
+        void AdjustVerticalPosition()
+        {
+            _velocity.z = speed;
         }
     }
 }

@@ -1,10 +1,11 @@
 ﻿using System;
 using Gameplay.Behaviours.Interfaces;
+using Gameplay.Core;
 using UnityEngine;
 
 namespace Gameplay.Behaviours
 {
-    public class DamageableBehaviour : MonoBehaviour, IDamageable
+    public class DamageableBehaviour : Behaviour, IDamageable
     {
         [SerializeField] int maxHealth;
 
@@ -21,8 +22,9 @@ namespace Gameplay.Behaviours
             _scheduledDamage += damage;
         }
 
-        void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             CurrentHealth = MaxHealth;
         }
 
@@ -38,9 +40,8 @@ namespace Gameplay.Behaviours
 
         void Die()
         {
-            Debug.Log($"{name} DIE!");
             OnDie?.Invoke();
-            Destroy(gameObject);
+            Entity.Remove();
         }
     }
 }

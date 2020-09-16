@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Gameplay.Core;
 using UnityEngine;
+using Utils.Extensions;
 
 namespace Gameplay.Behaviours
 {
@@ -39,7 +40,12 @@ namespace Gameplay.Behaviours
                 return Enumerable.Empty<GameObject>();
             }
             var oppositeTeam = GetOppositeTeam();
-            return _collider.CollidingObjects.Where(c => c.CompareTag(oppositeTeam.GetTag()));
+            var opponents = _collider.CollidingObjects.Where(obj => obj.CompareTag(oppositeTeam.GetTag()));
+            if (opponents.Any())
+            {
+                return opponents;
+            }
+            return Enumerable.Empty<GameObject>();
         }
 
         void Awake()

@@ -14,6 +14,8 @@ namespace Gameplay.Core
         {
             GameActionFactory = gameActionFactory;
             ActionsQueue.ScheduleAction(GameActionFactory.CreateDeployCardAction(CardType.Warrior, Team.Home, 0));
+            ActionsQueue.ScheduleAction(GameActionFactory.CreateDeployCardAction(CardType.Warrior, Team.Home, 0));
+            ActionsQueue.ScheduleAction(GameActionFactory.CreateDeployCardAction(CardType.Warrior, Team.Home, 0));
             ActionsQueue.ScheduleAction(GameActionFactory.CreateDeployCardAction(CardType.Warrior, Team.Visitor, 0));
         }
 

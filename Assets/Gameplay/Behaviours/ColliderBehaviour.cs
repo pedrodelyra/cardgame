@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using Utils.Extensions;
 
 namespace Gameplay.Behaviours
 {
     public delegate void CollisionCallback(GameObject target);
 
-    [RequireComponent(typeof(Collider))]
     public class ColliderBehaviour : MonoBehaviour
     {
-        public readonly HashSet<GameObject> CollidingObjects = new HashSet<GameObject>();
+        public readonly List<GameObject> CollidingObjects = new List<GameObject>();
 
         public event CollisionCallback OnAddCollider;
 
@@ -36,6 +36,7 @@ namespace Gameplay.Behaviours
 
         void RemoveObject(GameObject collidingObject)
         {
+            var t = collidingObject.tag;
             CollidingObjects.Remove(collidingObject);
             OnRemoveCollider?.Invoke(collidingObject);
         }
