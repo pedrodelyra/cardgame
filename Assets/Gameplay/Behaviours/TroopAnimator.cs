@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Gameplay.Behaviours
 {
-    public class TroopAnimator : MonoBehaviour
+    public class TroopAnimator : Behaviour
     {
         [SerializeField] Animator animator;
         [SerializeField] HealthBarBehaviour healthBarBehaviour;
@@ -20,25 +20,24 @@ namespace Gameplay.Behaviours
 
         MovementBehaviour _movement;
         AttackBehaviour _attack;
-        TeamBehaviour _team;
 
-        void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             _movement = GetComponent<MovementBehaviour>();
             _attack = GetComponent<AttackBehaviour>();
-            _team = GetComponent<TeamBehaviour>();
 
             if (healthBarBehaviour)
             {
                 healthBarBehaviour.Setup(GetComponent<DamageableBehaviour>(), transform);
             }
 
-            _team.OnUpdateTeam += OnUpdateTeam;
+            Entity.OnUpdateTeam += OnUpdateTeam;
         }
 
         void OnDestroy()
         {
-            _team.OnUpdateTeam -= OnUpdateTeam;
+            Entity.OnUpdateTeam -= OnUpdateTeam;
         }
 
         void Update()

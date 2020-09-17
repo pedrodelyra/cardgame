@@ -1,6 +1,5 @@
 ﻿using Gameplay.Core.Cards;
-using UnityEngine;
-using Utils.Extensions;
+using Utils;
 
 namespace Gameplay.Core
 {
@@ -16,7 +15,7 @@ namespace Gameplay.Core
         public Entity CreateCard(CardType cardType)
         {
             var prefab = CardPrefabMap.GetPrefab(cardType);
-            return GameObjectExtensions.Instantiate<Entity>(prefab);
+            return Extensions.Instantiate<Entity>(prefab);
         }
     }
 }

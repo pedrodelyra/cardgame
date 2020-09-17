@@ -1,7 +1,4 @@
-﻿using Gameplay.Behaviours;
-using Gameplay.Core.Cards;
-using UnityEngine;
-using Utils.Extensions;
+﻿using Gameplay.Core.Cards;
 
 namespace Gameplay.Core
 {
@@ -25,8 +22,6 @@ namespace Gameplay.Core
             var lane = Arena.Lanes[laneIdx];
             lane.AddEntity(card, team);
 
-            var teamBehaviour = card.GetOrAddComponent<TeamBehaviour>();
-            teamBehaviour.Team = team;
             return card;
         }
     }

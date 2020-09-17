@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using Gameplay.Core;
 using UnityEngine;
-using Utils.Extensions;
+using Utils;
 
 namespace Gameplay.Behaviours
 {
@@ -8,11 +9,24 @@ namespace Gameplay.Behaviours
 
     public class ColliderBehaviour : MonoBehaviour
     {
-        public readonly List<GameObject> CollidingObjects = new List<GameObject>();
+        readonly IDictionary<Team, List<Entity>> _collidingObjects = new Dictionary<Team, List<Entity>>();
 
         public event CollisionCallback OnAddCollider;
 
         public event CollisionCallback OnRemoveCollider;
+
+        public List<Entity> GetCollidingObjects(Team team)
+        {
+            return _collidingObjects[team];
+        }
+
+        void Awake()
+        {
+            foreach (var team in Extensions.GetEnumValues<Team>())
+            {
+                _collidingObjects.Add(team, new List<Entity>());
+            }
+        }
 
         void OnCollisionEnter(Collision collision)
         {
@@ -24,21 +38,27 @@ namespace Gameplay.Behaviours
         void OnCollisionExit(Collision collision)
         {
             var collidingObject = collision.collider.gameObject;
-            Debug.Log($"{name} OnCollisionExit: {collidingObject.name}!");
+            Debug.Log($"---------- {name} OnCollisionExit: {collidingObject.name}!");
             RemoveObject(collidingObject);
         }
 
         void AddObject(GameObject collidingObject)
         {
-            CollidingObjects.Add(collidingObject);
+            var entity = collidingObject.GetComponent<Entity>();
+            _collidingObjects[entity.Team].Add(entity);
             OnAddCollider?.Invoke(collidingObject);
+            entity.OnRemoved += RemoveObject;
         }
 
         void RemoveObject(GameObject collidingObject)
         {
-            var t = collidingObject.tag;
-            CollidingObjects.Remove(collidingObject);
+            var entity = collidingObject.GetComponent<Entity>();
+            _collidingObjects[entity.Team].Remove(entity);
             OnRemoveCollider?.Invoke(collidingObject);
+            entity.OnRemoved -= RemoveObject;
         }
+
+        // This way we enforce that a gameObject will trigger OnRemoveCollider even if it gets destroyed
+        void RemoveObject(Entity entity) => RemoveObject(entity.gameObject);
     }
 }

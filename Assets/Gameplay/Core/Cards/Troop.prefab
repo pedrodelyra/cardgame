@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4638452507755586567}
   - component: {fileID: 2239599424876530427}
   - component: {fileID: 8019133211977952202}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Troop
   m_TagString: Untagged
   m_Icon: {fileID: 0}

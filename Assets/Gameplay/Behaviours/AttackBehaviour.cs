@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Gameplay.Behaviours.Interfaces;
+using Gameplay.Core;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace Gameplay.Behaviours
 {
-    [RequireComponent(typeof(TeamBehaviour))]
-    public class AttackBehaviour : MonoBehaviour
+    public class AttackBehaviour : Behaviour
     {
         [SerializeField] int damage = 10;
 
@@ -17,8 +17,6 @@ namespace Gameplay.Behaviours
 
         ColliderBehaviour _collider;
 
-        TeamBehaviour _team;
-
         IDamageable CurrentTarget { get; set; }
 
         public bool IsAttacking => HasValidTarget;
@@ -27,11 +25,11 @@ namespace Gameplay.Behaviours
 
         float _attackTimer = 0;
 
-        void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             _attackers = GetComponents<IAttacker>().ToList();
             _collider = GetComponent<ColliderBehaviour>();
-            _team = GetComponent<TeamBehaviour>();
             _collider.OnAddCollider += OnAddCollider;
             _collider.OnRemoveCollider += OnRemoveCollider;
         }
@@ -44,7 +42,8 @@ namespace Gameplay.Behaviours
 
         void OnAddCollider(GameObject target)
         {
-            var opponents = _team.GetCollidingEnemies();
+            var myTeam = Entity.Team;
+            var opponents = _collider.GetCollidingObjects(myTeam.Opposite());
             if (opponents.Any())
             {
                 ChooseTarget();
@@ -53,7 +52,7 @@ namespace Gameplay.Behaviours
 
         void OnRemoveCollider(GameObject target) {}
 
-        void FixedUpdate()
+        void Update()
         {
             if (!HasValidTarget)
             {
@@ -71,7 +70,6 @@ namespace Gameplay.Behaviours
         void Attack()
         {
             Assert.IsTrue(HasValidTarget, message: "Attack should only be called with a valid target");
-            Debug.Log($"{name} ATTACK: {damage} HEALTH: {CurrentTarget.CurrentHealth}");
             CurrentTarget.ScheduleDamage(damage);
             _attackers.ForEach(action: attacker => attacker.Attack(CurrentTarget));
         }
@@ -83,12 +81,13 @@ namespace Gameplay.Behaviours
                 return;
             }
 
-            foreach (var candidate in _team.GetCollidingEnemies())
+            var myTeam = Entity.Team;
+            var opponents = _collider.GetCollidingObjects(myTeam.Opposite());
+            foreach (var candidate in opponents)
             {
                 var damageable = candidate.GetComponent<IDamageable>();
                 if (damageable != null)
                 {
-                    Debug.Log($"current target: {candidate.name}");
                     SetTarget(damageable);
                     return;
                 }

@@ -2,24 +2,21 @@
 using System.Linq;
 using Gameplay.Core;
 using UnityEngine;
-using Utils.Extensions;
 
 namespace Gameplay.Behaviours
 {
-    [RequireComponent(typeof(TeamBehaviour))]
-    public class MovementBehaviour : MonoBehaviour
+    public class MovementBehaviour : Behaviour
     {
-        public enum Direction
+        enum Direction
         {
             Left,
             Right,
         }
 
         [SerializeField] int speed = 1;
-        [SerializeField] Direction direction;
 
+        Direction _direction;
         ColliderBehaviour _collider;
-        TeamBehaviour _team;
 
         Vector3 _velocity = Vector3.zero;
 
@@ -29,24 +26,30 @@ namespace Gameplay.Behaviours
             {Direction.Right, Vector3.right},
         };
 
+        readonly Dictionary<Team, Direction> _teamDirections = new Dictionary<Team, Direction>
+        {
+            {Team.Home,  Direction.Right},
+            {Team.Visitor, Direction.Left},
+        };
+
         public bool IsMoving => _velocity.magnitude > 0f;
 
         public int Speed => speed;
 
-        void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             _collider = GetComponent<ColliderBehaviour>();
-            _team = GetComponent<TeamBehaviour>();
             _collider.OnAddCollider += OnAddCollider;
             _collider.OnRemoveCollider += OnRemoveCollider;
-            _team.OnUpdateTeam += OnUpdateTeam;
+            Entity.OnUpdateTeam += OnUpdateTeam;
         }
 
         void OnDestroy()
         {
             _collider.OnAddCollider -= OnAddCollider;
             _collider.OnRemoveCollider -= OnRemoveCollider;
-            _team.OnUpdateTeam -= OnUpdateTeam;
+            Entity.OnUpdateTeam -= OnUpdateTeam;
         }
 
         void Start() => Move();
@@ -59,7 +62,7 @@ namespace Gameplay.Behaviours
         void Move()
         {
             Debug.Log($"{name} Move!");
-            _directionsDict.TryGetValue(direction, out var d);
+            _directionsDict.TryGetValue(_direction, out var d);
             _velocity = d * speed;
         }
 
@@ -69,9 +72,10 @@ namespace Gameplay.Behaviours
             _velocity = Vector2.zero;
         }
 
-        void OnAddCollider(GameObject target)
+        void OnAddCollider(GameObject _)
         {
-            var opponents = _team.GetCollidingEnemies();
+            var myTeam = Entity.Team;
+            var opponents = _collider.GetCollidingObjects(myTeam.Opposite());
             if (opponents.Any())
             {
                 Stop();
@@ -80,8 +84,9 @@ namespace Gameplay.Behaviours
 
         void OnRemoveCollider(GameObject target)
         {
-            var opponents = _team.GetCollidingEnemies();
-            if (!opponents.Any())
+            var myTeam = Entity.Team;
+            var opponents = _collider.GetCollidingObjects(myTeam.Opposite());
+            if (opponents.Count == 0)
             {
                 Move();
             }
@@ -89,12 +94,7 @@ namespace Gameplay.Behaviours
 
         void OnUpdateTeam(Team team)
         {
-            direction = team == Team.Home ? Direction.Right : Direction.Left;
-        }
-
-        void AdjustVerticalPosition()
-        {
-            _velocity.z = speed;
+            _direction = _teamDirections[team];
         }
     }
 }

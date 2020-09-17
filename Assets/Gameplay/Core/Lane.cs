@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Gameplay.Behaviours;
 using UnityEngine;
-using Utils.Extensions;
+using Utils;
 
 namespace Gameplay.Core
 {

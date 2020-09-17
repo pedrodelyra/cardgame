@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
-namespace Utils.Extensions
+namespace Utils
 {
-    public static class GameObjectExtensions
+    public static class Extensions
     {
         public static T Instantiate<T>(GameObject gameObject)
         {
@@ -25,15 +28,19 @@ namespace Utils.Extensions
         {
             return behaviour.gameObject.GetOrAddComponent<T>();
         }
-    }
-    
-    public class ByInstanceId : IComparer<GameObject>
-    {
-        public int Compare(GameObject lhs, GameObject rhs)
+
+        public static List<T> GetEnumValues<T>() where T : Enum
         {
-            var lhsId = lhs != null ? lhs.GetInstanceID() : 0;
-            var rhsId = rhs != null ? rhs.GetInstanceID() : 0;
-            return lhsId.CompareTo(rhsId);
+            return Enum.GetValues(typeof(T)).Cast<T>().ToList();
+        }
+
+        public static T GetValueOrDefault<TK, T>(this IDictionary<TK, T> source, TK key, T defaultValue = default)
+        {
+            if (source.TryGetValue(key, out T value))
+            {
+                return value;
+            }
+            return source[key] = defaultValue;
         }
     }
 }
