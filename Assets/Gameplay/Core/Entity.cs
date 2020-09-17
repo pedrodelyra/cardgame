@@ -5,20 +5,20 @@ namespace Gameplay.Core
 {
     public class Entity : MonoBehaviour
     {
-        Team _team;
+        [SerializeField] Team team;
 
         bool _removed;
 
         public Team Team
         {
-            get => _team;
+            get => team;
             set
             {
-                if (_team == value)
+                if (team == value)
                 {
                     return;
                 }
-                _team = value;
+                team = value;
                 gameObject.tag = Team.GetTag();
                 OnUpdateTeam?.Invoke(Team);
             }
