@@ -1,5 +1,4 @@
-﻿using Gameplay.Behaviours.UI;
-using Gameplay.Core;
+﻿using Gameplay.Core;
 using UnityEngine;
 
 namespace Gameplay.Behaviours
@@ -7,7 +6,6 @@ namespace Gameplay.Behaviours
     public class TroopAnimator : Behaviour
     {
         [SerializeField] Animator animator;
-        [SerializeField] HealthBarBehaviour healthBarBehaviour;
 
         static readonly int StateHash = Animator.StringToHash(name: "State");
 
@@ -26,11 +24,6 @@ namespace Gameplay.Behaviours
             base.Awake();
             _movement = GetComponent<MovementBehaviour>();
             _attack = GetComponent<AttackBehaviour>();
-
-            if (healthBarBehaviour)
-            {
-                healthBarBehaviour.Setup(GetComponent<DamageableBehaviour>(), transform);
-            }
 
             Entity.OnUpdateTeam += OnUpdateTeam;
         }

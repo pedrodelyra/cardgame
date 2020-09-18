@@ -10,6 +10,8 @@ namespace Gameplay.Behaviours.Interfaces
 
         void ScheduleDamage(int damage);
 
-        event Action OnDie;
+        event Action<IDamageable> OnDie;
+
+        event Action<IDamageable> OnHealthChanged;
     }
 }

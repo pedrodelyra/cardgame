@@ -97,14 +97,19 @@ namespace Gameplay.Behaviours
         void SetTarget(IDamageable damageable)
         {
             CurrentTarget = damageable;
-            CurrentTarget.OnDie += ResetTarget;
+            CurrentTarget.OnDie += OnTargetDied;
             _attackTimer = 0;
         }
 
         void ResetTarget()
         {
-            CurrentTarget.OnDie -= ResetTarget;
             CurrentTarget = null;
+        }
+
+        void OnTargetDied(IDamageable damageable)
+        {
+            damageable.OnDie -= OnTargetDied;
+            ResetTarget();
         }
     }
 }

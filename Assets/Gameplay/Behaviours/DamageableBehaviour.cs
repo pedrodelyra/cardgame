@@ -13,7 +13,8 @@ namespace Gameplay.Behaviours
 
         public int MaxHealth => maxHealth;
 
-        public event Action OnDie;
+        public event Action<IDamageable> OnDie;
+        public event Action<IDamageable> OnHealthChanged;
 
         int _scheduledDamage;
 
@@ -31,16 +32,19 @@ namespace Gameplay.Behaviours
         void LateUpdate()
         {
             CurrentHealth = Mathf.Max(CurrentHealth - _scheduledDamage, 0);
+            OnHealthChanged?.Invoke(this);
+
             if (CurrentHealth == 0)
             {
                 Die();
             }
+
             _scheduledDamage = 0;
         }
 
         void Die()
         {
-            OnDie?.Invoke();
+            OnDie?.Invoke(this);
             Entity.Remove();
         }
     }

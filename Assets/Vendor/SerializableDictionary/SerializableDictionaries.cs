@@ -7,4 +7,7 @@ namespace Vendor.SerializableDictionary
 {
     [Serializable]
     public class CardPrefabDict : SerializableDictionary<CardType, GameObject> {}
+
+    [Serializable]
+    public class ColorsByTeamDict : SerializableDictionary<Team, Color> {}
 }

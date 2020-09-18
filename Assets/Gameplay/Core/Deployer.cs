@@ -1,4 +1,7 @@
-﻿using Gameplay.Core.Cards;
+﻿using Gameplay.Behaviours.Interfaces;
+using Gameplay.Behaviours.UI;
+using Gameplay.Core.Cards;
+using UnityEngine.Assertions;
 
 namespace Gameplay.Core
 {
@@ -8,10 +11,13 @@ namespace Gameplay.Core
 
         Arena Arena { get; }
 
-        public Deployer(GameObjectFactory gameObjectFactory, Arena arena)
+        GameplayHUD GameplayHUD { get; }
+
+        public Deployer(GameObjectFactory gameObjectFactory, Arena arena, GameplayHUD gameplayHUD)
         {
             GameObjectFactory = gameObjectFactory;
             Arena = arena;
+            GameplayHUD = gameplayHUD;
         }
 
         public Entity DeployCard(CardType cardType, Team team, int laneIdx)
@@ -21,6 +27,13 @@ namespace Gameplay.Core
 
             var lane = Arena.Lanes[laneIdx];
             lane.AddEntity(card, team);
+
+            var damageable = card.GetComponent<IDamageable>();
+            if (damageable != null)
+            {
+                Assert.IsNotNull(card.transform, "VAI TOMAR NO CU LOL");
+                GameplayHUD.CreateHealthBar(damageable, team, card.transform);
+            }
 
             return card;
         }
