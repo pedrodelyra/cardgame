@@ -15,7 +15,6 @@ namespace Gameplay.Behaviours.UI
 
         void UpdateHealthBar(IDamageable damageable)
         {
-            Debug.Log($"MAX HEALTH: {damageable.MaxHealth} Current: {damageable.CurrentHealth}");
             slider.minValue = 0;
             slider.maxValue = damageable.MaxHealth;
             slider.value = damageable.CurrentHealth;

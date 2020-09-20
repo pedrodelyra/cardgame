@@ -5,7 +5,7 @@ namespace Gameplay.Behaviours
 {
     public class Behaviour : MonoBehaviour
     {
-        protected Entity Entity;
+        public Entity Entity { get; private set; }
 
         protected virtual void Awake() => Initialize();
 

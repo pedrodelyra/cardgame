@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using Gameplay.Behaviours;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Utils;
 
 namespace Gameplay.Core
 {
     public class Lane : MonoBehaviour
     {
+        [SerializeField] Collider collider;
         [SerializeField] Transform cornerLeft;
         [SerializeField] Transform cornerRight;
 
@@ -21,6 +23,8 @@ namespace Gameplay.Core
 
         List<MovementBehaviour> GetObjectsFromTeam(Team team) =>
             LaneObjects.GetValueOrDefault(team, new List<MovementBehaviour>());
+
+        public Collider Collider => collider;
 
         public void AddEntity(Entity entity, Team team)
         {

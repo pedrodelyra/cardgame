@@ -92,6 +92,9 @@ MonoBehaviour:
   matchReferee: {fileID: 8810095783438696219}
   cardPrefabMap: {fileID: 6652695199102847947, guid: c81aa2f6b1e2c447e86af12e9f43b0f7,
     type: 3}
+  gameplayHUD: {fileID: 0}
+  playerPrefab: {fileID: 8935196672504659087, guid: 0640b6363a77e42e5a8a357501a6bbfa,
+    type: 3}
 --- !u!1001 &938094247219466833
 PrefabInstance:
   m_ObjectHideFlags: 0

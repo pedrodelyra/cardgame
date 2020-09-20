@@ -1,4 +1,6 @@
-﻿using Gameplay.Core.Actions;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Gameplay.Core.Actions;
 using Gameplay.Core.Cards;
 using UnityEngine;
 
@@ -10,13 +12,18 @@ namespace Gameplay.Core
 
         GameActionsQueue ActionsQueue { get; } = new GameActionsQueue();
 
-        public void Setup(GameActionFactory gameActionFactory)
+        List<IPlayer> Players { get; set; }
+
+        public void Setup(GameActionFactory gameActionFactory, IEnumerable<IPlayer> players)
         {
             GameActionFactory = gameActionFactory;
-            ActionsQueue.ScheduleAction(GameActionFactory.CreateDeployCardAction(CardType.Warrior, Team.Home, 0));
-            ActionsQueue.ScheduleAction(GameActionFactory.CreateDeployCardAction(CardType.Warrior, Team.Home, 0));
-            ActionsQueue.ScheduleAction(GameActionFactory.CreateDeployCardAction(CardType.Warrior, Team.Home, 0));
-            ActionsQueue.ScheduleAction(GameActionFactory.CreateDeployCardAction(CardType.Warrior, Team.Visitor, 0));
+            Players = players.ToList();
+        }
+
+        public void OnPlayerUsedCard(CardType card, Team team, int laneIdx)
+        {
+            var deployCardAction = GameActionFactory.CreateDeployCardAction(card, team, laneIdx);
+            ActionsQueue.ScheduleAction(deployCardAction);
         }
 
         void Update() => ActionsQueue.Execute();

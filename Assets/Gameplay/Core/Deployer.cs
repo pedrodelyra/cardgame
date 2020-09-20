@@ -22,8 +22,7 @@ namespace Gameplay.Core
 
         public Entity DeployCard(CardType cardType, Team team, int laneIdx)
         {
-            var card = GameObjectFactory.CreateCard(cardType);
-            card.Team = team;
+            var card = GameObjectFactory.CreateCard(cardType, team);
 
             var lane = Arena.Lanes[laneIdx];
             lane.AddEntity(card, team);
@@ -31,7 +30,6 @@ namespace Gameplay.Core
             var damageable = card.GetComponent<IDamageable>();
             if (damageable != null)
             {
-                Assert.IsNotNull(card.transform, "VAI TOMAR NO CU LOL");
                 GameplayHUD.CreateHealthBar(damageable, team, card.transform);
             }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 namespace Utils
 {
@@ -41,6 +42,16 @@ namespace Utils
                 return value;
             }
             return source[key] = defaultValue;
+        }
+
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source) => source.OrderBy(item => Random.value);
+
+        public static void DestroyChildren(this RectTransform rt)
+        {
+            foreach (Transform child in rt)
+            {
+                Object.Destroy(child.gameObject);
+            }
         }
     }
 }

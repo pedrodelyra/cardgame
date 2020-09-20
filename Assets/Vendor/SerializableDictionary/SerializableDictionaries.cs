@@ -10,4 +10,7 @@ namespace Vendor.SerializableDictionary
 
     [Serializable]
     public class ColorsByTeamDict : SerializableDictionary<Team, Color> {}
+
+    [Serializable]
+    public class CardSpriteDict : SerializableDictionary<CardType, Sprite> {}
 }

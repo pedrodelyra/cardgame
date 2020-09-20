@@ -61,14 +61,12 @@ namespace Gameplay.Behaviours
 
         void Move()
         {
-            Debug.Log($"{name} Move!");
             _directionsDict.TryGetValue(_direction, out var d);
             _velocity = d * speed;
         }
 
         void Stop()
         {
-            Debug.Log($"{name} Stop!");
             _velocity = Vector2.zero;
         }
 

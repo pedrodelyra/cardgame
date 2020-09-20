@@ -32,7 +32,11 @@ namespace Gameplay.Behaviours
         void LateUpdate()
         {
             CurrentHealth = Mathf.Max(CurrentHealth - _scheduledDamage, 0);
-            OnHealthChanged?.Invoke(this);
+
+            if (_scheduledDamage > 0)
+            {
+                OnHealthChanged?.Invoke(this);
+            }
 
             if (CurrentHealth == 0)
             {

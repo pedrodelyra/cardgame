@@ -1,4 +1,5 @@
 ﻿using Gameplay.Core.Cards;
+using UnityEngine;
 using Utils;
 
 namespace Gameplay.Core
@@ -7,15 +8,27 @@ namespace Gameplay.Core
     {
         CardPrefabMap CardPrefabMap { get; }
 
-        public GameObjectFactory(CardPrefabMap cardPrefabMap)
+        GameObject PlayerPrefab { get; }
+
+        public GameObjectFactory(CardPrefabMap cardPrefabMap, GameObject playerPrefab)
         {
             CardPrefabMap = cardPrefabMap;
+            PlayerPrefab = playerPrefab;
         }
 
-        public Entity CreateCard(CardType cardType)
+        public Entity CreateCard(CardType cardType, Team team)
         {
             var prefab = CardPrefabMap.GetPrefab(cardType);
-            return Extensions.Instantiate<Entity>(prefab);
+            var card = Extensions.Instantiate<Entity>(prefab);
+            card.Team = team;
+            return card;
+        }
+
+        public Player CreatePlayer(Team team)
+        {
+            var player = Extensions.Instantiate<Player>(PlayerPrefab);
+            player.Entity.Team = team;
+            return player;
         }
     }
 }

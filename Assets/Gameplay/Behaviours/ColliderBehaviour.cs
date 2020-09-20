@@ -31,20 +31,22 @@ namespace Gameplay.Behaviours
         void OnCollisionEnter(Collision collision)
         {
             var collidingObject = collision.collider.gameObject;
-            Debug.Log($"{name} OnCollisionEnter: {collidingObject.name}!");
             AddObject(collidingObject);
         }
 
         void OnCollisionExit(Collision collision)
         {
             var collidingObject = collision.collider.gameObject;
-            Debug.Log($"---------- {name} OnCollisionExit: {collidingObject.name}!");
             RemoveObject(collidingObject);
         }
 
         void AddObject(GameObject collidingObject)
         {
             var entity = collidingObject.GetComponent<Entity>();
+            if (entity == null)
+            {
+                return;
+            }
             _collidingObjects[entity.Team].Add(entity);
             OnAddCollider?.Invoke(collidingObject);
             entity.OnRemoved += RemoveObject;
@@ -53,6 +55,10 @@ namespace Gameplay.Behaviours
         void RemoveObject(GameObject collidingObject)
         {
             var entity = collidingObject.GetComponent<Entity>();
+            if (entity == null)
+            {
+                return;
+            }
             _collidingObjects[entity.Team].Remove(entity);
             OnRemoveCollider?.Invoke(collidingObject);
             entity.OnRemoved -= RemoveObject;

@@ -3,7 +3,12 @@ using UnityEngine;
 
 namespace Gameplay.Core
 {
-    public class Entity : MonoBehaviour
+    public interface IEntity
+    {
+        Team Team { get; }
+    }
+
+    public class Entity : MonoBehaviour, IEntity
     {
         [SerializeField] Team team;
 
