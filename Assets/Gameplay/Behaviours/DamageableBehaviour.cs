@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Gameplay.Behaviours
 {
-    public class DamageableBehaviour : Behaviour, IDamageable
+    public class DamageableBehaviour : BaseBehaviour, IDamageable
     {
         [SerializeField] int maxHealth;
 

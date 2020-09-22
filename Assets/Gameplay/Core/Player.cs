@@ -11,7 +11,7 @@ namespace Gameplay.Core
         void Setup(PlayerDeck deck);
     }
 
-    public class Player : Behaviour, IPlayer
+    public class Player : BaseBehaviour, IPlayer
     {
         public PlayerDeck Deck { get; private set; }
 

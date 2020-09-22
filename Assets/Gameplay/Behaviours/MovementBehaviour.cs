@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Gameplay.Behaviours
 {
-    public class MovementBehaviour : Behaviour
+    public class MovementBehaviour : BaseBehaviour
     {
         enum Direction
         {

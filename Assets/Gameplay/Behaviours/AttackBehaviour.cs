@@ -7,7 +7,7 @@ using UnityEngine.Assertions;
 
 namespace Gameplay.Behaviours
 {
-    public class AttackBehaviour : Behaviour
+    public class AttackBehaviour : BaseBehaviour
     {
         [SerializeField] int damage = 10;
 

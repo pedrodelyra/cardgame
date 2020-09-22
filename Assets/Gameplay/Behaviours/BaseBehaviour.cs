@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Gameplay.Behaviours
 {
-    public class Behaviour : MonoBehaviour
+    public class BaseBehaviour : MonoBehaviour
     {
         public Entity Entity { get; private set; }
 

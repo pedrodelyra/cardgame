@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Gameplay.Behaviours
 {
-    public class TroopAnimator : Behaviour
+    public class TroopAnimator : BaseBehaviour
     {
         [SerializeField] Animator animator;
 
