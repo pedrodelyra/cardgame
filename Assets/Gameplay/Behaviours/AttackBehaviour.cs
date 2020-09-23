@@ -9,8 +9,6 @@ namespace Gameplay.Behaviours
 {
     public class AttackBehaviour : BaseBehaviour
     {
-        [SerializeField] int damage = 10;
-
         const int CooldownInSeconds = 1;
 
         List<IAttacker> _attackers;
@@ -70,7 +68,6 @@ namespace Gameplay.Behaviours
         void Attack()
         {
             Assert.IsTrue(HasValidTarget, message: "Attack should only be called with a valid target");
-            CurrentTarget.ScheduleDamage(damage);
             _attackers.ForEach(action: attacker => attacker.Attack(CurrentTarget));
         }
 
@@ -91,7 +88,7 @@ namespace Gameplay.Behaviours
                     SetTarget(damageable);
                     return;
                 }
-            }            
+            }
         }
 
         void SetTarget(IDamageable damageable)
