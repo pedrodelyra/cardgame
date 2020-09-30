@@ -20,8 +20,8 @@ namespace Gameplay.Core
 
         Dealer Dealer { get; } = new Dealer();
 
-        public float maxTime = 50;
-        public float minTime = 10;
+        public float maxTime = 20;
+        public float minTime = 2;
         
         private float time;
 
@@ -71,7 +71,8 @@ namespace Gameplay.Core
             time += Time.deltaTime;
 
             if(time >= spawnTime){
-                OnVisitorUsedCard(CardType.Warrior, 0);
+                Dealer.DealCard(VisitorPlayer);
+                OnVisitorUsedCard();
                 time = 0;
             }
         }
@@ -90,10 +91,9 @@ namespace Gameplay.Core
             
         }
 
-        void OnVisitorUsedCard(CardType card, int laneIdx){
-           
-            matchReferee.OnPlayerUsedCard(card, Team.Visitor, laneIdx);
-            Dealer.DealCard(VisitorPlayer);
+        void OnVisitorUsedCard(){
+            CardType Card = VisitorPlayer.Hand.Cards[0];
+            matchReferee.OnPlayerUsedCard(Card, VisitorPlayer.Team, 0);
             
         }
     }
