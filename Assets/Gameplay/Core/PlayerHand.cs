@@ -10,7 +10,7 @@ namespace Gameplay.Core
     {
         public const int HandSize = 4;
 
-        List<CardType> Cards { get; } = new List<CardType>();
+        public List<CardType> Cards { get; } = new List<CardType>();
 
         public int Size => Cards.Count;
 
